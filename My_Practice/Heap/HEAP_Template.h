@@ -27,7 +27,7 @@ int init_HEAP_t(HEAP_t *ptr, int size, int (*comp)(const void *a, const void*b))
     return -2;
 }
 
-void des_HEAP_T(HEAP_t *h){
+void des_HEAP_t(HEAP_t *h){
     free(h->data);
     h->data = NULL;
     h->rear = h->full = 0;
