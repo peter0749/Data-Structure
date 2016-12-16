@@ -18,10 +18,15 @@ void memswap(char *src, char *tar, size_t len){
 int init_HEAP_t(HEAP_t *ptr, int size, int (*comp)(const void *a, const void*b)){
     if(!ptr->data){
         ptr->data = (HDATA_T*)malloc(sizeof(HDATA_T)*size);
+        if(!ptr->data){
+            fprintf(stderr,"Out of memory...\n");
+            exit(-1);
+        }
         ptr->full = size;
         ptr->comp = comp;
-        return ptr->data?size:-1;
+        return size;
     }
+    fprintf(stderr,"HEAP may have been initialized...\n");
     return -2;
 }
 
@@ -34,7 +39,7 @@ void des_HEAP_t(HEAP_t *h){
 void pushHEAP(int key, HEAP_t *h){
     int ch, pa;
     if(h->rear==h->full){
-        fprintf(stderr,"HEAP Full!");
+        fprintf(stderr,"HEAP Full!\n");
         exit(-1);
     }
     ch=h->rear; pa=(ch-1)>>1;
@@ -47,12 +52,15 @@ void pushHEAP(int key, HEAP_t *h){
 }
 
 HDATA_T topHEAP(HEAP_t *h){
-    if(!h||!h->data) exit(-1);
+    if(!h||!h->data||h->rear==0){
+        fprintf(stderr,"HEAP is empty or not initialized.\n");
+        exit(-1);
+    }
     return h->data[0];
 }
 HDATA_T popHEAP(HEAP_t *h){
     if(!h||!h->data||h->rear==0){
-        fprintf(stderr,"Empty HEAP!\n");
+        fprintf(stderr,"HEAP is empty or not initialized.\n");
         exit(-1);
     }
     HDATA_T output = h->data[0];
@@ -68,7 +76,7 @@ HDATA_T popHEAP(HEAP_t *h){
     return output;
 }
 char emptyHEAP(HEAP_t *h){
-    return (!h->data || h->rear==0)? 1:0;
+    return (!h||!h->data || h->rear==0)? 1:0;
 }
 
 int cmp(const void *a, const void *b){
