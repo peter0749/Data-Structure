@@ -1,10 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <limits.h>
-#define MAXN 100000
 
-typedef int HDATA_T;
+typedef double HDATA_T;
 typedef struct{
     int rear, full;
     HDATA_T *data;
@@ -53,7 +51,10 @@ HDATA_T topHEAP(HEAP_t *h){
     return h->data[0];
 }
 HDATA_T popHEAP(HEAP_t *h){
-    if(!h||!h->data||h->rear==0) exit(-1);
+    if(!h||!h->data||h->rear==0){
+        fprintf(stderr,"Empty HEAP!\n");
+        exit(-1);
+    }
     HDATA_T output = h->data[0];
     h->data[0] = h->data[--h->rear];
     int pos=0, ch;
@@ -72,5 +73,5 @@ char emptyHEAP(HEAP_t *h){
 
 int cmp(const void *a, const void *b){
     HDATA_T *c=(HDATA_T*)a, *d=(HDATA_T*)b;
-    return *c < *d;
+    return *c < *d?1:0;
 }
