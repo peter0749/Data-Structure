@@ -3,6 +3,7 @@
 #include <string.h>
 
 typedef double HDATA_T;
+
 typedef struct{
     int rear, full;
     HDATA_T *data;
@@ -16,18 +17,15 @@ void memswap(char *src, char *tar, size_t len){
     memcpy(tar,temp,len);
 }
 int init_HEAP_t(HEAP_t *ptr, int size, int (*comp)(const void *a, const void*b)){
+    ptr->data = (HDATA_T*)malloc(sizeof(HDATA_T)*size);
     if(!ptr->data){
-        ptr->data = (HDATA_T*)malloc(sizeof(HDATA_T)*size);
-        if(!ptr->data){
-            fprintf(stderr,"Out of memory...\n");
-            exit(-1);
-        }
-        ptr->full = size;
-        ptr->comp = comp;
-        return size;
+        fprintf(stderr,"Out of memory...\n");
+        exit(-1);
     }
-    fprintf(stderr,"HEAP may have been initialized...\n");
-    return -2;
+    ptr->rear = 0;
+    ptr->full = size;
+    ptr->comp = comp;
+    return size;
 }
 
 void des_HEAP_t(HEAP_t *h){
