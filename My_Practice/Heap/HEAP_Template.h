@@ -36,7 +36,7 @@ void des_HEAP_t(HEAP_t *h){
     h->rear = h->full = 0;
 }
 
-void pushHEAP(int key, HEAP_t *h){
+void pushHEAP(HDATA_T key, HEAP_t *h){
     int ch, pa;
     if(h->rear==h->full){
         fprintf(stderr,"HEAP Full!\n");
